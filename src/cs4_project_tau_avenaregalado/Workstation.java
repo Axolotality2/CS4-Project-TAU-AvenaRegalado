@@ -1,14 +1,16 @@
 package cs4_project_tau_avenaregalado;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Workstation implements Clickable {
-    String name;
-    ArrayList<Ingredient> contents;
-    String[] useMethod;
+    private String name;
+    private ArrayList<Ingredient> contents;
+    private final String[] useMethods;
     
     public Workstation(String name, String[] useMethods) {
-        
+        this.name = name;
+        this.useMethods = useMethods;
     }
 
     @Override
@@ -16,15 +18,34 @@ public class Workstation implements Clickable {
         
     }
     
-    public void useMethod(String useMethod) {
+    public void use(String useMethod) throws Exception {
+        if (!Arrays.asList(useMethods).contains(useMethod))
+            throw new Exception();
         
+        Step checkedStep = new Step((Ingredient[]) contents.toArray(), this, useMethod).reference();
+        if (checkedStep == null)
+            throw new Exception();
+        
+        this.contents = new ArrayList<Ingredient>(Arrays.asList(checkedStep.getOutput()));
     }
     
     public void insert(Ingredient ingredient) {
-        
+        contents.add(ingredient);
     }
     
     public Ingredient[] releaseProducts() {
         return (Ingredient[]) contents.toArray();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ArrayList<Ingredient> getContents() {
+        return contents;
+    }
+
+    public String[] getUseMethods() {
+        return useMethods;
     }
 }

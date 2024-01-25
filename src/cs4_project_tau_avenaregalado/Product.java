@@ -4,13 +4,12 @@ public class Product extends Ingredient implements Draggable {
 
     public static final Product[] possibleOrders = new Product[]{};
     private final int complexity;
-    private final Step[] steps;
+    
 
-    public Product(String name, int complexity, Step[] steps, boolean isFood, Ingredient[] allergens) {
-        super(name, allergens, isFood);
+    public Product(String name, Step[] steps, boolean isFood, Ingredient[] allergens, int complexity) {
+        super(name, steps, isFood, allergens);
         
         this.complexity = complexity;
-        this.steps = steps;
     }
 
     @Override
