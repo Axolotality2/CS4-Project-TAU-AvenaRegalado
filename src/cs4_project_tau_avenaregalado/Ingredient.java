@@ -1,6 +1,8 @@
 package cs4_project_tau_avenaregalado;
 
 public class Ingredient implements Draggable {
+    public static final WeightedDist<Ingredient> ALLERGENS = new WeightedDist<>();
+    
     protected final Ingredient[] allergens;
     protected final String name;
     protected final Step[] steps;

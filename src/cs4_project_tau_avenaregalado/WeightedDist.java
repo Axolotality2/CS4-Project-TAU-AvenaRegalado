@@ -8,13 +8,13 @@ public class WeightedDist<T> {
     private HashMap<T, Double> table;
     private double weightSum;
     private final Random generator = new Random();
-
+    
     public void addEntry(T entry, double weight) {
         weightSum += weight;
         table.put(entry, weightSum);
     }
 
-    public T selectRandom() {
+    public T pickRandom() {
         double reference = generator.nextDouble() * weightSum;
 
         for (T entry : table.keySet()) {
@@ -23,5 +23,14 @@ public class WeightedDist<T> {
             }
         }
         return null;
+    }
+    
+    public T[] pickRandom(int length) {
+        Object[] randomArr = new Object[length];
+        
+        for (int i = 0; i < length; i++)
+            randomArr[i] = pickRandom();
+        
+        return (T[]) randomArr;
     }
 }
