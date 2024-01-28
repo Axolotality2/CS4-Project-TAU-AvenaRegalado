@@ -6,30 +6,36 @@ import java.util.Arrays;
 public class Customer {
     
     private final int orderTime, orderSize;
-    private final ArrayList<Product> orderLeft;
+    private final ArrayList<Product> order;
     private final Ingredient[] allergies;
     private int totalRating, leaveTime;
 
-    public Customer(WeightedDist<Integer> complexityTable, int orderSize, Ingredient[] allergies, int leaveTime, int currentTime) {
-        this.orderLeft = getOrder(complexityTable, orderSize);
-        this.totalRating = this.orderSize = this.orderLeft.size();
+    public Customer(WeightedDist<Integer> complexityTable, int orderSize, Ingredient[] allergies, int leaveTime) {
+        this.order = getOrder(complexityTable, orderSize);
+        this.totalRating = this.orderSize = this.order.size();
         this.allergies = allergies;
         this.leaveTime = leaveTime;
-        this.orderTime = currentTime;
+        this.orderTime = PlayerManager.getCurrTime();
     }
     
-    public Customer(WeightedDist<Integer> complexityTable, int orderSize, Ingredient[] allergies, int currentTime) {
-        this(complexityTable, orderSize, allergies, 0, currentTime);
-        
-        this.leaveTime = 1;
+    public Customer(WeightedDist<Integer> complexityTable, int orderSize, Ingredient[] allergies) {
+        this(complexityTable, orderSize, allergies, PlayerManager.getCurrTime());
+        for (Product p : order)
+            this.leaveTime += p.getPrepTime();
     }
 
-    public Customer(ArrayList<Product> order, Ingredient[] allergies, int leaveTime, int currentTime) {
-        this.orderLeft = order;
-        this.totalRating = this.orderSize = this.orderLeft.size();
+    public Customer(ArrayList<Product> order, Ingredient[] allergies, int leaveTime) {
+        this.order = order;
+        this.totalRating = this.orderSize = this.order.size();
         this.allergies = allergies;
         this.leaveTime = leaveTime;
-        this.orderTime = currentTime;
+        this.orderTime = PlayerManager.getCurrTime();
+    }
+    
+    public Customer(ArrayList<Product> order, Ingredient[] allergies) {
+        this(order, allergies, PlayerManager.getCurrTime());
+        for (Product p : order)
+            this.leaveTime += p.getPrepTime();
     }
 
     private ArrayList<Product> getOrder(WeightedDist<Integer> complexityTable, int variation, int orderSize) {
@@ -55,7 +61,7 @@ public class Customer {
         int percentTimeSpent = (currentTime - orderTime) / (currentTime - leaveTime);
         boolean allergenFree = true;
 
-        if (!orderLeft.remove(product)) { // Remove from remaining order
+        if (!order.remove(product)) { // Remove from remaining order
             throw new Exception();
         }
 
@@ -88,7 +94,15 @@ public class Customer {
         return leaveTime;
     }
 
-    public ArrayList<Product> getOrderLeft() {
-        return orderLeft;
+    public ArrayList<Product> getOrder() {
+        return order;
+    }
+    
+    public void setLeaveTime(int leaveTime) {
+        this.leaveTime = leaveTime;
+    }
+    
+    public void setLeaveTime(float multiplier) {
+        this.leaveTime *= multiplier;
     }
 }

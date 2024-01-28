@@ -1,20 +1,19 @@
 package cs4_project_tau_avenaregalado;
 
-import java.util.ArrayList;
-
 public class PlayerManager {
 
-    private static Product currentOrder;
+    private static Customer currCustomer;
+    private static Week currWeek;
     private static int customersServed, totalRating;
     private static float averageRating;
 
-    public static void addRating(int rating) {
+    private static void addRating(int rating) {
         totalRating += rating;
         averageRating = totalRating / customersServed;
     }
 
-    public static void submitProduct() {
-
+    public static void submitProduct(Product product) {
+        
     }
 
     public static void lose() {
@@ -25,12 +24,12 @@ public class PlayerManager {
 
     }
 
-    public static void forceEndDay() {
-
+    public static void endDay() {
+        customersServed += currWeek.getCurrDay().getCustomersServed();
     }
 
-    public static Product getCurrentOrder() {
-        return currentOrder;
+    public static Customer getCurrCustomer() {
+        return currCustomer;
     }
 
     public static int getCustomersServed() {
@@ -45,7 +44,11 @@ public class PlayerManager {
         return averageRating;
     }
 
-    public static void setCurrentOrder(Product order) {
-        currentOrder = order;
+    public static Week getCurrWeek() {
+        return currWeek;
+    }
+    
+    public static int getCurrTime() {
+        return currWeek.getCurrDay().getTime();
     }
 }
