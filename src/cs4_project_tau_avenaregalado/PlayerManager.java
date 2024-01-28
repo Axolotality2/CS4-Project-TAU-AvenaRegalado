@@ -12,16 +12,19 @@ public class PlayerManager {
         averageRating = totalRating / customersServed;
     }
 
-    public static void submitProduct(Product product) {
-        
+    public static void submitProduct(Product product) throws Exception {
+        int remainingTime = getCurrTime();
+        int rating = currCustomer.rateProduct(product, remainingTime);
+
+        addRating(rating);
     }
 
     public static void lose() {
-
+        System.out.println("I've received reports, and I'm afraid the business won't be thriving with you here. Goodbye.");
     }
 
     public static void win() {
-
+        System.out.println("Congratulations, you've proven yourself to be great help here for my business. You can keep the job.");
     }
 
     public static void endDay() {
@@ -47,7 +50,7 @@ public class PlayerManager {
     public static Week getCurrWeek() {
         return currWeek;
     }
-    
+
     public static int getCurrTime() {
         return currWeek.getCurrDay().getTime();
     }

@@ -26,7 +26,7 @@ public class Workstation implements Clickable {
         if (checkedStep == null)
             throw new Exception();
         
-        this.contents = new ArrayList<Ingredient>(Arrays.asList(checkedStep.getOutput()));
+        this.contents = new ArrayList<>(Arrays.asList(checkedStep.getOutput()));
     }
     
     public void insert(Ingredient ingredient) {
